@@ -2,42 +2,19 @@
 session_start();
 include 'connection.php';
 
-if(isset($_POST['Register']))
+     $User=$_GET['id'];
+    $query_select="Select *from user where Userid = $User";
+    $result_select=mysqli_query($conn,$query_select);
+    $row_select=mysqli_fetch_array($result_select);
+  $id=$row_select['Userid'];
+    $Query_Update="Update user set status = 'Verified' where Userid=$id";
+    $Result_Update=mysqli_query($conn,$Query_Update);
+if(isset($_POST['Sub']))
 {
-$fname = $_POST['fname'];
-$lname = $_POST['lname'];
-$Username = $_POST['Username'];
-$Email_Adress = $_POST['Email_Adress'];
-$Pass=$_POST['Pass'];
-$hash = password_hash($Pass,PASSWORD_DEFAULT);
-$Contact = $_POST['Contact'];
-$Gender = $_POST['Gender'];
-$imagename = $_FILES['Image_upload']['name'];
-$imgtype=$_FILES['Image_upload']['type'];
-$temp_name=$_FILES['Image_upload']['tmp_name'];
-if( $imgtype=="image/png"||$imgtype=="image/jpeg"||$imgtype=="image/jpg")
-{
-$query_insert = "insert into user values(null,'$fname','$lname','$Contact','$Username','$Email_Adress','$Gender','$imagename','$hash','Not verified')";
-move_uploaded_file($temp_name,'img/'.$imagename);
-$result_insert = mysqli_query($conn,$query_insert);
+header("Location:Login.php");
 
 }
-else
-{
-    echo'<script> alert("Image Error") </script>';
-}
-
-
-if($result_insert)
-{
-  $query_select="Select * from user where Username= '$Username'";
-  $result_select=mysqli_query($conn,$query_select);
-  $row=mysqli_fetch_array($result_select);
-  $_SESSION['user'] =$row['Username'];
-header("Location:Verify_Your_account.php");
-}
-
-}
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,10 +52,6 @@ header("Location:Verify_Your_account.php");
   <![endif]-->
 
 </head>
-
-<body class="body-wrapper">
-
-
 <section>
 	<div class="container">
 		<div class="row">
@@ -98,39 +71,22 @@ header("Location:Verify_Your_account.php");
 	</div>
 </section>
 
-<section class="login py-5 border-top-1">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-8 align-item-center">
-                    <div class="border border">
-                        <h3 class="bg-gray p-4">Register Now</h3>
-                        <form action="Register.php" method="post" enctype="multipart/form-data">
-                            <fieldset class="p-4">
-                                <input type="text" name="fname"placeholder="First Name" class="border p-3 w-100 my-2"required>
-                                <input type="text" name="lname"placeholder="Last Name" class="border p-3 w-100 my-2"required>
-                                <input type="email" name="Email_Adress"placeholder="Email Adress" class="border p-3 w-100 my-2"required>
-                                <input type="number" name="Contact"placeholder="Contact" class="border p-3 w-100 my-2"required>
-                                <input type="text" name="Username" placeholder="Username" class="border p-3 w-100 my-2"required>
-                               <label>Gender</label><br/>
-                               <label>Male</label>
-                               <input type="radio" value="Male" name="Gender" required>
-                               <label>Female</label>
-                               <input type="radio" value="Female" name="Gender" required>
-                               <input type="file" name="Image_upload" class="border p-3 w-100 my-2"required>
-                             <input type="password" name="Pass"placeholder="Password*" class="border p-3 w-100 my-2"required>
-                                <div class="loggedin-forgot d-inline-flex my-3">
-                                     
-                                <input type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold" name="Register"Value="Register"/>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<!--============================
-=            Footer            
-=============================-->
+<body class="body-wrapper">
+<section class="page-title">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3>  <h1>For Verifing Your Registeration Please Check Your Email We Send You A Mail  </h1></h3>
+			<form action="Login.php" method="post">
+<input type="submit" name="Sub" class="btn btn-danger" value="Login Now"/>
+            </form></div>
+            
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
 
 <footer class="footer section section-sm">
   <!-- Container Start -->

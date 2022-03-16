@@ -13,6 +13,7 @@
   <!-- PLUGINS CSS STYLE -->
   <!-- <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet"> -->
   <!-- Bootstrap -->
+  <!-- <link rel="stylesheet" href="Bootstrap/css/bootstrap.css"> -->
   <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap-slider.css">
   <!-- Font Awesome -->
@@ -44,7 +45,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg navbar-light navigation">
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="Index.php">
 						<img src="images/logo.png" alt="">
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -65,11 +66,11 @@
 								<div class="dropdown-menu">
 									
 									<a class="dropdown-item" href="User_profile.php">User Profile</a>
-									<a class="dropdown-item" href="View_My_bids.php">View My Bids</a>
+									<a class="dropdown-item" href="View_My_Bids.php">View My Bids</a>
 									<a class="dropdown-item" href="View_Products.php">View Products</a>
 									<a class="dropdown-item" href="Add_Products.php">Add Products</a>
 									<a class="dropdown-item" href="View_My_Products.php">View My Products</a>
-								
+									
 
 								</div>
 							</li>

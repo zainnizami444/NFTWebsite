@@ -2,17 +2,18 @@
 session_start();
 include 'connection.php';
 include 'Header.php';
-
-if($_SESSION['Username']!=null)
+$user = $_SESSION['Userid']; 
+ 
+if($_SESSION['Userid']!=null)
 {
-   $user= $_SESSION['Username']; 
+  
     
 }
 else
 {
     header("Location:Login.php");
 }
-$query_Select="select * from user where Username ='$user'";
+$query_Select="select * from user where Userid =$user";
 $result_Select=mysqli_query($conn,$query_Select);
 $row=mysqli_fetch_array($result_Select);
 if(isset($_POST['save'])){

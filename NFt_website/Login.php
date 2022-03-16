@@ -2,42 +2,30 @@
 session_start();
 include 'connection.php';
 
-if(isset($_POST['Register']))
+if(isset($_POST['Login']))
 {
-$fname = $_POST['fname'];
-$lname = $_POST['lname'];
 $Username = $_POST['Username'];
-$Email_Adress = $_POST['Email_Adress'];
 $Pass=$_POST['Pass'];
-$hash = password_hash($Pass,PASSWORD_DEFAULT);
-$Contact = $_POST['Contact'];
-$Gender = $_POST['Gender'];
-$imagename = $_FILES['Image_upload']['name'];
-$imgtype=$_FILES['Image_upload']['type'];
-$temp_name=$_FILES['Image_upload']['tmp_name'];
-if( $imgtype=="image/png"||$imgtype=="image/jpeg"||$imgtype=="image/jpg")
+$query_Select = "Select * from user where Username = '$Username'";
+$result_Select=mysqli_query($conn,$query_Select);
+$row=mysqli_fetch_array($result_Select);
+$Verify= password_verify($Pass,$row['Pass']);
+$count= mysqli_num_rows($result_Select);
+if($count>0){
+if($Username == $row['Username'] && $Verify == $row['Pass'])
 {
-$query_insert = "insert into user values(null,'$fname','$lname','$Contact','$Username','$Email_Adress','$Gender','$imagename','$hash','Not verified')";
-move_uploaded_file($temp_name,'img/'.$imagename);
-$result_insert = mysqli_query($conn,$query_insert);
-
+    $_SESSION['Userid']=$row['Userid'];
+    header ("Location:Index.php");
 }
 else
 {
-    echo'<script> alert("Image Error") </script>';
+    echo'<script> alert("Invalid Password or Username") </script>';
+}
+}
 }
 
 
-if($result_insert)
-{
-  $query_select="Select * from user where Username= '$Username'";
-  $result_select=mysqli_query($conn,$query_select);
-  $row=mysqli_fetch_array($result_select);
-  $_SESSION['user'] =$row['Username'];
-header("Location:Verify_Your_account.php");
-}
 
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,24 +91,13 @@ header("Location:Verify_Your_account.php");
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-8 align-item-center">
                     <div class="border border">
-                        <h3 class="bg-gray p-4">Register Now</h3>
-                        <form action="Register.php" method="post" enctype="multipart/form-data">
+                        <h3 class="bg-gray p-4">Login Now</h3>
+                        <form action="Login.php" method="post" >
                             <fieldset class="p-4">
-                                <input type="text" name="fname"placeholder="First Name" class="border p-3 w-100 my-2"required>
-                                <input type="text" name="lname"placeholder="Last Name" class="border p-3 w-100 my-2"required>
-                                <input type="email" name="Email_Adress"placeholder="Email Adress" class="border p-3 w-100 my-2"required>
-                                <input type="number" name="Contact"placeholder="Contact" class="border p-3 w-100 my-2"required>
-                                <input type="text" name="Username" placeholder="Username" class="border p-3 w-100 my-2"required>
-                               <label>Gender</label><br/>
-                               <label>Male</label>
-                               <input type="radio" value="Male" name="Gender" required>
-                               <label>Female</label>
-                               <input type="radio" value="Female" name="Gender" required>
-                               <input type="file" name="Image_upload" class="border p-3 w-100 my-2"required>
-                             <input type="password" name="Pass"placeholder="Password*" class="border p-3 w-100 my-2"required>
-                                <div class="loggedin-forgot d-inline-flex my-3">
-                                     
-                                <input type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold" name="Register"Value="Register"/>
+                                <input type="text" name="Username"placeholder="Username" class="border p-3 w-100 my-2"required>
+                                <input type="password" name="Pass"placeholder="Password" class="border p-3 w-100 my-2"required>
+
+                                <input type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold" name="Login"Value="Login"/>
                             </fieldset>
                         </form>
                     </div>
